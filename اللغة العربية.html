@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>درس الأفعال الخمسة — تفاعلي</title>
+  <style>
+    :root{
+      --bg:#fdf6ec;
+      --card:#ffffff;
+      --text:#2c3e50;
+      --muted:#666;
+      --accent:#3498db;
+      --accent-dark:#2980b9;
+      --table:#f9d5e5;
+      --success:#2e7d32;
+      --error:#c62828;
+      --shadow:0 8px 24px rgba(0,0,0,0.08);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Cairo", "Amiri", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      background: linear-gradient(180deg, #fff7ee 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height:1.9;
+    }
+    .container{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+    header{
+      text-align:center;
+      padding: 16px 0 8px;
+    }
+    header h1{
+      margin: 0;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: 0.2px;
+    }
+    header p{
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin: 18px 0;
+      overflow: hidden;
+    }
+    .card h2{
+      margin-top:0;
+      font-size: 22px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .card h2 .emoji{font-size: 22px}
+
+    .lead{
+      font-size: 17px;
+    }
+
+    .tags{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .tag{
+      background:#eef7ff;
+      color:#0b57d0;
+      border:1px solid #dbe9ff;
+      padding:6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    table{
+      width:100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      border-radius: 12px;
+      overflow:hidden;
+      box-shadow: inset 0 0 0 1px #eee;
+    }
+    th, td{
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    th{
+      background: var(--table);
+      font-weight: 700;
+    }
+    tr:last-child td{border-bottom: none}
+
+    ul{
+      margin:0;
+      padding-inline-start:18px;
+    }
+    li{
+      margin: 8px 0;
+    }
+
+    .beauty{
+      position: relative;
+      padding: 18px;
+      border: 1px dashed #e8c7b1;
+      border-radius: 12px;
+      background: #fffaf3;
+    }
+    .beauty::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background: radial-gradient(120px 80px at 96% 0, rgba(255,205,178,0.35), transparent 70%),
+                  radial-gradient(160px 120px at 0 100%, rgba(179,229,252,0.35), transparent 70%);
+      border-radius: 12px;
+    }
+
+    .quiz{
+      display:grid;
+      gap:16px;
+    }
+    .question{
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 14px;
+      background: #fff;
+    }
+    .question p{
+      margin: 0 0 10px;
+      font-weight: 700;
+    }
+    .choices{
+      display:grid;
+      gap:8px;
+    }
+    .choice{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 10px;
+      border-radius:10px;
+      transition: background .2s ease;
+      cursor:pointer;
+    }
+    .choice:hover{ background: #f4f9ff }
+    .choice input{ accent-color: var(--accent) }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 6px;
+    }
+    button{
+      appearance:none;
+      border:none;
+      background: var(--accent);
+      color:#fff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow: 0 4px 16px rgba(52,152,219,.25);
+      transition: transform .08s ease, background .2s ease;
+    }
+    button:hover{ background: var(--accent-dark) }
+    button:active{ transform: translateY(1px) }
+    .ghost{
+      background: #f0f6ff;
+      color: #0b57d0;
+      box-shadow: none;
+      border: 1px solid #dbe9ff;
+    }
+
+    .result{
+      margin-top: 8px;
+      font-weight: 800;
+    }
+    .correct{ color: var(--success) }
+    .incorrect{ color: var(--error) }
+
+    .explain{
+      margin-top: 10px;
+      background: #f7fbff;
+      border: 1px solid #e6f1ff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #0b3050;
+    }
+
+    footer{
+      text-align:center;
+      color:#9aa5b1;
+      font-size: 13px;
+      padding: 24px 0 12px;
+    }
+
+    @media (max-width:640px){
+      .card{ padding:18px }
+      th, td{ padding:10px }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>🌿 درس الأفعال الخمسة</h1>
+      <p>لغة عربية بسيطة وجميلة مع اختبار ذاتي التصحيح</p>
+    </header>
+
+    <section class="card">
+      <h2><span class="emoji">✨</span> تمهيد</h2>
+      <p class="lead">
+        الأفعال الخمسة من أجمل أبواب النحو العربي؛ تحمل نظامًا خاصًا في الصياغة والإعراب، وتُظهر جمال اللغة وانسجامها.
+        وسُمّيت بهذا الاسم لأنها تأتي في خمس صور محددة.
+      </p>
+      <div class="tags">
+        <span class="tag">قواعد</span>
+        <span class="tag">الصرف</span>
+        <span class="tag">الإعراب</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="emoji">📌</span> تعريف الأفعال الخمسة</h2>
+      <p>هي كل فعل مضارع اتصلت به إحدى العلامات الآتية:</p>
+      <ul>
+        <li><strong>ألف الاثنين:</strong> للدلالة على المثنى.</li>
+        <li><strong>واو الجماعة:</strong> للدلالة على الجمع.</li>
+        <li><strong>ياء المخاطبة:</strong> للدلالة على المفرد المؤنث المخاطَب.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2><span class="emoji">🌸</span> صور الأفعال الخمسة</h2>
+      <table aria-label="صور الأفعال الخمسة">
+        <thead>
+          <tr>
+            <th>الصورة</th>
+            <th>المثال</th>
+            <th>المعنى</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>يفعلان</td>
+            <td>الطالبان يفعلان الواجب</td>
+            <td>للمثنى الغائب</td>
+          </tr>
+          <tr>
+            <td>تفعلان</td>
+            <td>أنتما تفعلان الخير</td>
+            <td>للمثنى المخاطَب</td>
+          </tr>
+          <tr>
+            <td>يفعلون</td>
+            <td>التلاميذ يفعلون النشاط</td>
+            <td>للجمع الغائب</td>
+          </tr>
+          <tr>
+            <td>تفعلون</td>
+            <td>أنتم تفعلون المعروف</td>
+            <td>للجمع المخاطَب</td>
+          </tr>
+          <tr>
+            <td>تفعلين</td>
+            <td>أنتِ تفعلين الواجب</td>
+            <td>للمفرد المؤنث المخاطَب</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2><span class="emoji">🌱</span> إعراب الأفعال الخمسة</h2>
+      <ul>
+        <li><strong>ترفع بثبوت النون:</strong> الطالبان يدرسان الدرسُ بجدٍّ.</li>
+        <li><strong>تنصب بحذف النون:</strong> لن يدرسا الدرسَ غدًا.</li>
+        <li><strong>تجزم بحذف النون:</strong> لم يدرسا الدرسَ أمس.</li>
+      </ul>
+      <div class="explain">
+        النون هي العلامة الأساسية: وجودها يدل على الرفع، وحذفها يدل على النصب أو الجزم.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="emoji">🎨</span> لمسة جمالية</h2>
+      <div class="beauty">
+        تأمل كيف تجعل العربية من حرف صغير (النون) علامة فارقة تغيّر المعنى والإعراب،
+        وكأنها لوحة دقيقة؛ كل نقطة تضيف انسجامًا للصورة.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="emoji">📝</span> اختبار تفاعلي ذاتي التصحيح</h2>
+      <div class="quiz" id="quiz">
+
+        <div class="question" data-answer="1">
+          <p>1. أيٌ من التالي يُعدّ من الأفعال الخمسة؟</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q1" value="0"> ذهب</label>
+            <label class="choice"><input type="radio" name="q1" value="1"> يفعلان</label>
+            <label class="choice"><input type="radio" name="q1" value="0"> يذهب</label>
+          </div>
+        </div>
+
+        <div class="question" data-answer="1">
+          <p>2. ما علامة رفع الأفعال الخمسة؟</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q2" value="1"> ثبوت النون</label>
+            <label class="choice"><input type="radio" name="q2" value="0"> حذف النون</label>
+            <label class="choice"><input type="radio" name="q2" value="0"> الفتحة</label>
+          </div>
+        </div>
+
+        <div class="question" data-answer="1">
+          <p>3. اختر الفعل الصحيح في الجملة: "أنتما ______ الواجب."</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q3" value="0"> تفعلين</label>
+            <label class="choice"><input type="radio" name="q3" value="1"> تفعلان</label>
+            <label class="choice"><input type="radio" name="q3" value="0"> يفعلون</label>
+          </div>
+        </div>
+
+        <div class="question" data-answer="0">
+          <p>4. اختر الجملة المضبوطة رفعًا:</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q4" value="0"> لم تفعلون العمل.</label>
+            <label class="choice"><input type="radio" name="q4" value="1"> أنتم تفعلون العملُ.</label>
+            <label class="choice"><input type="radio" name="q4" value="0"> لن تفعلون العملَ.</label>
+          </div>
+        </div>
+
+        <div class="question" data-answer="0">
+          <p>5. علامة النصب في الأفعال الخمسة هي:</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="q5" value="1"> حذف النون</label>
+            <label class="choice"><input type="radio" name="q5" value="0"> ثبوت النون</label>
+            <label class="choice"><input type="radio" name="q5" value="0"> الضمة</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="checkBtn">تصحيح</button>
+          <button class="ghost" id="resetBtn">إعادة المحاولة</button>
+        </div>
+
+        <div id="result" class="result" aria-live="polite"></div>
+        <div id="explanations" class="explain" style="display:none"></div>
+      </div>
+    </section>
+
+    <footer>إعداد: درس الأفعال الخمسة — نسخة تعليمية تفاعلية</footer>
+  </div>
+
+  <script>
+    // Helper: get selected value for a question
+    function getSelectedValue(name){
+      const group = document.querySelectorAll('input[name="'+name+'"]');
+      for(const input of group){ if(input.checked) return input.value; }
+      return null;
+    }
+
+    function checkAnswers(){
+      const questions = document.querySelectorAll('.question');
+      let score = 0;
+      let total = questions.length;
+      let feedback = [];
+
+      questions.forEach((q, idx)=>{
+        const name = 'q' + (idx+1);
+        const correctIndex = q.dataset.answer; // which option is correct among rendered labels
+        const selected = getSelectedValue(name);
+
+        if(selected === null){
+          feedback.push('لم تُجب عن السؤال ' + (idx+1) + '.');
+          return;
+        }
+
+        if(selected === '1'){
+          score++;
+        }else{
+          feedback.push('السؤال ' + (idx+1) + ': الإجابة غير صحيحة.');
+        }
+      });
+
+      const result = document.getElementById('result');
+      const explain = document.getElementById('explanations');
+
+      if(score === total){
+        result.textContent = 'أحسنت! جميع إجاباتك صحيحة ✅';
+        result.className = 'result correct';
+        explain.style.display = 'none';
+        explain.innerHTML = '';
+      }else{
+        result.textContent = 'حصلت على ' + score + ' من ' + total + '. حاول مرة أخرى!';
+        result.className = 'result incorrect';
+        explain.style.display = 'block';
+        explain.innerHTML = `
+          • الأفعال الخمسة تُرفع بثبوت النون، وتُنصب وتُجزَم بحذفها.<br>
+          • صورها: يفعلان، تفعلان، يفعلون، تفعلون، تفعلين.<br>
+          • انتبه للضمائر المتصلة بالفعل: ألف الاثنين للمثنى، واو الجماعة للجمع، وياء المخاطبة للمفرد المؤنث.
+        `;
+      }
+    }
+
+    function resetQuiz(){
+      const inputs = document.querySelectorAll('input[type="radio"]');
+      inputs.forEach(i => i.checked = false);
+      const result = document.getElementById('result');
+      result.textContent = '';
+      result.className = 'result';
+      const explain = document.getElementById('explanations');
+      explain.style.display = 'none';
+      explain.innerHTML = '';
+    }
+
+    document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+    document.getElementById('resetBtn').addEventListener('click', resetQuiz);
+  </script>
+</body>
+</html>
